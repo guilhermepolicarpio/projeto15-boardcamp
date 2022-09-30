@@ -1,7 +1,7 @@
-export default function customerMiddleware(customersSchema){
+export default function gamesMiddleware(gamesSchema){
 
     return (req, res, next) =>{
-    const validation = customersSchema.validate(req.body)
+    const validation = gamesSchema.validate(req.body)
 
     if(validation.error){
         return res.status(400).send("Errorrrrr")
