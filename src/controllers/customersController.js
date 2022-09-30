@@ -48,3 +48,19 @@ export async function getCustomersbyID(req,res){
         return res.send(err)
     }
 }
+
+export async function updateCustomer(req,res){
+    const { id } = req.params;
+    const {name, phone, cpf, birthday} = req.body;
+
+    try{
+        await connection.query(`UPDATE customers SET (name, phone, cpf, birthday) = ($1, $2, $3, $4) WHERE id = $5;`,
+        [name, phone, cpf, birthday,id]);
+
+        return res.sendStatus(201);
+    }
+    catch(err){
+        return res.send(err)
+    }
+
+}
