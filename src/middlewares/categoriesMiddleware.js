@@ -1,4 +1,4 @@
-export default function validate(schema){
+export default function categoriesMiddleware(schema){
     return (req, res, next) =>{
         const { error } = schema.validate(req.body);
 
