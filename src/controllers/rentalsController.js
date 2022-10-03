@@ -58,7 +58,6 @@ export async function addRentals(req,res){
         JOIN categories ON games."categoryId"=categories.id
         LIMIT $1 OFFSET $2;`, [limit, offset]);
         
-        console.log("oi")
        res.send(rentals.rows)
 
         }catch (err){
