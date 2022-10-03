@@ -1,10 +1,23 @@
-export default function categoriesMiddleware(schema){
-    return (req, res, next) =>{
-        const { error } = schema.validate(req.body);
+import connection from "../database.js"
 
-        if(error){
-            return res.status(400).send(error.details[0].message);
+export default function categoriesMiddleware(categoriesSchema){
+    return async (req, res, next) =>{
+        const validation = categoriesSchema.validate(req.body)
+    
+        if(validation.error){
+            return res.status(400).send("Errorrrrr")
         }
-        next()
+        try{
+            const category = req.body;
+    
+            const validName = await connection.query("SELECT *FROM categories WHERE name=$1", [category.name]);
+            if(validName.rows.length)
+                return res.status(409).send("Nome de categoria já existente");
+            next()
+        }
+        catch (err){
+            console.log(err)
+            res.sendStatus(500);
+        }
     }
 }
