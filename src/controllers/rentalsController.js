@@ -41,3 +41,29 @@ export async function addRentals(req,res){
         return res.sendStatus(500);
         }
     }
+
+    export async function getRentals(req,res){
+
+        const {customerId, gameId, offset, limit} = req.query;
+
+        try{
+        const rentals = await connection.query(`
+        SELECT
+        rentals.*,
+        jsonb_build_object('name', customers.name, 'id', customers.id) AS customer,
+        jsonb_build_object('id', games.id, 'name', games.name, 'categoryId', games."categoryId", 'categoryName', categories.name)
+        AS game FROM games
+        JOIN rentals ON games.id = rentals."gameId"
+        JOIN customers ON rentals."customerId"=customers.id
+        JOIN categories ON games."categoryId"=categories.id
+        LIMIT $1 OFFSET $2;`, [limit, offset]);
+        
+        console.log("oi")
+       res.send(rentals.rows)
+
+        }catch (err){
+            console.log(err)
+            return res.sendStatus(500);
+        }
+
+    }

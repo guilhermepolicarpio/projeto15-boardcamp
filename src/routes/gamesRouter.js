@@ -5,7 +5,6 @@ import gamesSchema from "../schemas/gamesSchema.js";
 
 const gamesRouter = Router();
 
-
 gamesRouter.get("/games",getGames)
 gamesRouter.post("/games",gamesMiddleware(gamesSchema),addGames)
 
