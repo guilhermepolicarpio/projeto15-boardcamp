@@ -5,6 +5,8 @@ export async function addGames (req,res){
     const {name, image, stockTotal, categoryId, pricePerDay} = req.body;
 
     try{
+
+        
         const repeated = await connection.query(`SELECT * FROM games WHERE name = $1`, [name]);
         if(repeated.rows.length>0){
             console.log("eroouu")
